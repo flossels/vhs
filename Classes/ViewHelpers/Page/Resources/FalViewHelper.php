@@ -67,7 +67,6 @@ class FalViewHelper extends ResourcesFalViewHelper
                 $pageRepository = $GLOBALS['TSFE']->sys_page;
             } else {
                 $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-                $pageRepository->init(false);
             }
             /** @var PageRepository $pageRepository */
             $localisation = $pageRepository->getPageOverlay($record, $this->getCurrentLanguageUid());

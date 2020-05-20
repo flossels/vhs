@@ -8,12 +8,10 @@ namespace FluidTYPO3\Vhs\View;
  * LICENSE.md file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
-use TYPO3\CMS\Fluid\Compatibility\TemplateParserBuilder;
 use TYPO3Fluid\Fluid\Core\Compiler\TemplateCompiler;
 use TYPO3Fluid\Fluid\Core\Parser\TemplateParser;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
@@ -31,17 +29,17 @@ class UncacheTemplateView extends TemplateView
     protected $objectManager;
 
     /**
-     * @var TemplateParser|\TYPO3Fluid\Fluid\Core\Parser\TemplateParser
+     * @var TemplateParser
      */
     protected $templateParser;
 
     /**
-     * @var TemplateCompiler|\TYPO3Fluid\Fluid\Core\Compiler\TemplateCompiler
+     * @var TemplateCompiler
      */
     protected $templateCompiler;
 
     /**
-     * @return void
+     * @return array
      */
     public function __sleep()
     {
@@ -103,19 +101,8 @@ class UncacheTemplateView extends TemplateView
     ) {
         $renderingContext->setControllerContext($controllerContext);
         $this->setRenderingContext($renderingContext);
-        if (method_exists($renderingContext, 'getTemplateParser')) {
-            $this->templateParser = $renderingContext->getTemplateParser();
-        } else {
-            $this->templateParser = TemplateParserBuilder::build();
-        }
-        if (method_exists($renderingContext, 'getTemplateCompiler')) {
-            $this->templateCompiler = $renderingContext->getTemplateCompiler();
-        } else {
-            $this->templateCompiler = $this->objectManager->get(TemplateCompiler::class);
-            $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
-
-            $this->templateCompiler->setTemplateCache($cacheManager->getCache('fluid_template'));
-        }
+        $this->templateParser = $renderingContext->getTemplateParser();
+        $this->templateCompiler = $renderingContext->getTemplateCompiler();
     }
 
     /**

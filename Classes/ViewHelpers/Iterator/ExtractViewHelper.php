@@ -8,6 +8,8 @@ namespace FluidTYPO3\Vhs\ViewHelpers\Iterator;
  * LICENSE.md file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
@@ -90,6 +92,16 @@ class ExtractViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
+     * @var Logger
+     */
+    protected static $logger;
+
+    public function __construct()
+    {
+        self::$logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+    }
+
+    /**
      * @return void
      */
     public function initializeArguments()
@@ -125,7 +137,7 @@ class ExtractViewHelper extends AbstractViewHelper
                 $result = static::extractByKey($content, $key);
             }
         } catch (\Exception $error) {
-            GeneralUtility::sysLog($error->getMessage(), 'vhs', GeneralUtility::SYSLOG_SEVERITY_WARNING);
+            self::$logger->warning($error->getMessage());
             $result = [];
         }
 

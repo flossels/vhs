@@ -78,7 +78,7 @@ abstract class AbstractAssetViewHelper extends AbstractViewHelper implements Ass
     protected $objectManager;
 
     /**
-     * @var \TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder
+     * @var TagBuilder
      */
     protected $tagBuilder;
 

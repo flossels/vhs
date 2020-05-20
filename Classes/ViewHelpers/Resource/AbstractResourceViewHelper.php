@@ -194,9 +194,6 @@ abstract class AbstractResourceViewHelper extends AbstractTagBasedViewHelper
      */
     private function getTablenameForSystemConfiguration()
     {
-        if (ExtensionManagementUtility::isLoaded('filemetadata') || version_compare(TYPO3_version, '8.0.0', '>=')) {
-            return 'sys_file_metadata';
-        }
-        return 'sys_file';
+        return 'sys_file_metadata';
     }
 }

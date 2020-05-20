@@ -384,13 +384,8 @@ class LanguageMenuViewHelper extends AbstractTagBasedViewHelper
      */
     protected function getSystemLanguageUids()
     {
-        if (version_compare(TYPO3_branch, '9.0', '<')) {
-            $table = 'pages_language_overlay';
-            $parentField = 'pid';
-        } else {
-            $table = 'pages';
-            $parentField = 'l10n_parent';
-        }
+        $table = 'pages';
+        $parentField = 'l10n_parent';
 
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $connection = $connectionPool->getConnectionForTable($table);

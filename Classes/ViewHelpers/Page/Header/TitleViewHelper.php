@@ -42,6 +42,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  * Enforcing use of the core behavior is the only way to ensure
  * that this ViewHelper can coexist with other extensions in
  * a fully controllable way.
+ * @deprecated Use TYPO3 API instead.
  */
 class TitleViewHelper extends AbstractViewHelper
 {

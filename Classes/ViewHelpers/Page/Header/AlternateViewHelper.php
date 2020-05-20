@@ -19,6 +19,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Returns the all alternate urls.
+ * @deprecated Use TYPO3 API instead.
  */
 class AlternateViewHelper extends AbstractViewHelper
 {

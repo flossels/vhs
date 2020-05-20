@@ -203,7 +203,7 @@ abstract class AbstractContentViewHelper extends AbstractViewHelper
             array_push($elements, static::renderRecord($row));
         }
         if (false === empty($this->arguments['loadRegister'])) {
-            $this->contentObject->cObjGetSingle('RESTORE_REGISTER', '');
+            $this->contentObject->cObjGetSingle('RESTORE_REGISTER', []);
         }
         return $elements;
     }

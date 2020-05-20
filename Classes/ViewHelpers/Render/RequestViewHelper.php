@@ -29,6 +29,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
  * Note: arguments must not be wrapped with the prefix used
  * in GET/POST parameters but must be provided as if the
  * arguments were sent directly to the Controller action.
+ *
+ * @deprecated Use TYPO3 API instead.
  */
 class RequestViewHelper extends AbstractRenderViewHelper
 {

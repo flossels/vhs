@@ -10,6 +10,7 @@ namespace FluidTYPO3\Vhs\Utility;
 
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\Variables\StandardVariableProvider;
+use TYPO3Fluid\Fluid\Core\Variables\VariableProviderInterface;
 
 /**
  * ViewHelper Utility
@@ -22,13 +23,14 @@ class ViewHelperUtility
      * Fixes a bug in TYPO3 6.2.0 that the properties metadata is not overlayed on localization.
      *
      * @param RenderingContextInterface $renderingContext
-     * @return StandardVariableProvider|\TYPO3Fluid\Fluid\Core\Variables\VariableProviderInterface
+     * @return StandardVariableProvider|VariableProviderInterface
      */
     public static function getVariableProviderFromRenderingContext(RenderingContextInterface $renderingContext)
     {
         if (method_exists($renderingContext, 'getVariableProvider')) {
             return $renderingContext->getVariableProvider();
         }
+
         return $renderingContext->getVariableProvider();
     }
 }

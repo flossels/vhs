@@ -73,7 +73,7 @@ trait ArrayConsumingViewHelperTrait
      * @param boolean $useKeys
      *
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     protected function arrayFromArrayOrTraversableOrCSV($candidate, $useKeys = true)
     {
@@ -85,7 +85,7 @@ trait ArrayConsumingViewHelperTrait
      * @param boolean $useKeys
      *
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     protected static function arrayFromArrayOrTraversableOrCSVStatic($candidate, $useKeys = true)
     {

@@ -138,19 +138,6 @@ abstract class AbstractOnceViewHelper extends AbstractConditionViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param boolean $hasEvaluated
-     * @return string
-     */
-    protected static function renderStaticThenChild($arguments, &$hasEvaluated)
-    {
-        if (TYPO3_MODE === 'FE') {
-            $GLOBALS['TSFE']->no_cache = 1;
-        }
-        return parent::renderStaticThenChild($arguments, $hasEvaluated);
-    }
-
-    /**
      * Override: forcibly disables page caching - a TRUE condition
      * in this ViewHelper means page content would be depending on
      * the current visitor's session/cookie/auth etc.

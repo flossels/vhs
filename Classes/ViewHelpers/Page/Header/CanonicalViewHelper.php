@@ -13,6 +13,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
  * Returns the current canonical url in a link tag.
+ * @deprecated Use TYPO3 API instead.
  */
 class CanonicalViewHelper extends AbstractTagBasedViewHelper
 {

@@ -14,7 +14,9 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\ObjectAccessorNode as LegacyFluidObjectAccessorNode;
 use TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\ViewHelperNode as LegacyFluidViewHelperNode;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\ChildNodeAccessInterface;
+use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\ObjectAccessorNode;
 use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\ObjectAccessorNode as StandaloneFluidObjectAccessorNode;
+use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\ViewHelperNode;
 use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\ViewHelperNode as StandaloneFluidViewHelperNode;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -167,7 +169,7 @@ class DebugViewHelper extends AbstractViewHelper implements ChildNodeAccessInter
     /**
      * Sets the direct child nodes of the current syntax tree node.
      *
-     * @param \TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\AbstractNode[] $childNodes
+     * @param AbstractNode[] $childNodes
      * @return void
      */
     public function setChildNodes(array $childNodes)

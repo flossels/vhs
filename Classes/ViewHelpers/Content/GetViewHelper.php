@@ -33,7 +33,7 @@ class GetViewHelper extends AbstractContentViewHelper
         if ('BE' === TYPO3_MODE) {
             return '';
         }
-        $contentRecords = $this->getContentRecords();
-        return $contentRecords;
+
+        return $this->getContentRecords();
     }
 }

@@ -231,7 +231,7 @@ class SortViewHelper extends AbstractViewHelper
      *
      * @param array $arguments
      * @return int
-     * @throws Exception
+     * @throws \Exception
      */
     protected static function getSortFlags($arguments)
     {

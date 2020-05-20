@@ -17,6 +17,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
  *
  * If you use the ViewHelper in a plugin it has to be USER
  * not USER_INT, what means it has to be cached!
+ * @deprecated Use TYPO3 API instead.
  */
 class MetaViewHelper extends AbstractTagBasedViewHelper
 {

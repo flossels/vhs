@@ -86,7 +86,8 @@ class HasValidatorViewHelper extends AbstractConditionViewHelper
                 $annotations = static::$staticReflectionService->getPropertyTagValues($className, $property, 'var');
                 $possibleClassName = array_pop($annotations);
                 if (false !== strpos($possibleClassName, '<')) {
-                    $className = array_pop(explode('<', trim($possibleClassName, '>')));
+                    $possibleClassNames = explode('<', trim($possibleClassName, '>'));
+                    $className = array_pop($possibleClassNames);
                 } elseif (true === class_exists($possibleClassName)) {
                     $className = $possibleClassName;
                 }

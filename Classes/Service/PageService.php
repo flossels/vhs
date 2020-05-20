@@ -44,7 +44,6 @@ class PageService implements SingletonInterface
     /**
      * @var PageRepository
      */
-    protected static $backendPageRepository;
 
     /**
      * @param integer $pageUid
@@ -195,24 +194,26 @@ class PageService implements SingletonInterface
     }
 
     /**
-     * @return PageRepository
+     * @return \TYPO3\CMS\Frontend\Page\PageRepository|\TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
     protected function getPageRepository()
     {
         if (TYPO3_MODE === 'BE') {
             return $this->getPageRepositoryForBackendContext();
         }
+
         return clone $GLOBALS['TSFE']->sys_page;
     }
 
     /**
-     * @return PageRepository
+     * @return \TYPO3\CMS\Frontend\Page\PageRepository|\TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
     protected function getPageRepositoryForBackendContext()
     {
         if (static::$backendPageRepository === null) {
             static::$backendPageRepository = GeneralUtility::makeInstance(PageRepository::class);
         }
+
         return static::$backendPageRepository;
     }
 

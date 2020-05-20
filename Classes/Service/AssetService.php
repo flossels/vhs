@@ -10,13 +10,16 @@ namespace FluidTYPO3\Vhs\Service;
 
 use FluidTYPO3\Vhs\Asset;
 use FluidTYPO3\Vhs\ViewHelpers\Asset\AssetInterface;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
@@ -66,6 +69,16 @@ class AssetService implements SingletonInterface
     protected static $cacheCleared = false;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    public function __construct()
+    {
+        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+    }
+
+    /**
      * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
      * @return void
      */
@@ -86,7 +99,8 @@ class AssetService implements SingletonInterface
     /**
      * @param object $caller
      * @param boolean $shouldUsePageCache
-     * @return boolean
+     * @return mixed
+     * @throws Exception
      */
     public function usePageCache($caller, $shouldUsePageCache)
     {
@@ -96,9 +110,9 @@ class AssetService implements SingletonInterface
 
     /**
      * @param array $parameters
-     * @param object $caller
+     * @param $caller
      * @param boolean $cached If TRUE, treats this inclusion as happening in a cached context
-     * @return void
+     * @throws Exception
      */
     public function buildAll(array $parameters, $caller, $cached = true)
     {
@@ -298,7 +312,7 @@ class AssetService implements SingletonInterface
                                 );
                             } else {
                                 $integrity = $this->getFileIntegrity($path);
-                                $path = mb_substr($path, mb_strlen(PATH_site));
+                                $path = mb_substr($path, mb_strlen(Environment::getPublicPath(). '/'));
                                 $path = $this->prefixPath($path);
                                 array_push($chunks, $this->generateTagForAssetType($type, null, $path, $integrity, $assetSettings));
                             }
@@ -639,17 +653,13 @@ class AssetService implements SingletonInterface
                 $newPath = basename($path);
                 $extension = pathinfo($newPath, PATHINFO_EXTENSION);
                 $temporaryFileName = 'vhs-assets-css-' . $checksum . '.' . $extension;
-                $temporaryFile = constant('PATH_site') . $this->getTempPath() . $temporaryFileName;
+                $temporaryFile = Environment::getPublicPath() . '/' . $this->getTempPath() . $temporaryFileName;
                 $rawPath = GeneralUtility::getFileAbsFileName(
                     $originalDirectory . (empty($originalDirectory) ? '' : '/')
                 ) . $path;
                 $realPath = realpath($rawPath);
                 if (false === $realPath) {
-                    GeneralUtility::sysLog(
-                        'Asset at path "' . $rawPath . '" not found. Processing skipped.',
-                        'vhs',
-                        GeneralUtility::SYSLOG_SEVERITY_WARNING
-                    );
+                    $this->logger->warning(sprintf('Asset at path "%s" not found. Processing skipped.', $rawPath));
                 } else {
                     if (false === file_exists($temporaryFile)) {
                         copy($realPath, $temporaryFile);
@@ -769,10 +779,6 @@ class AssetService implements SingletonInterface
      */
     protected function writeFile($file, $contents)
     {
-        /** @var Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-        $signalSlotDispatcher->dispatch(__CLASS__, static::ASSET_SIGNAL, [&$file, &$contents]);
-
         GeneralUtility::writeFile($file, $contents, true);
     }
 
@@ -835,16 +841,10 @@ class AssetService implements SingletonInterface
     /**
      * Returns the typo3temp path name.
      *
-     * Since TYPO3 8.0 publicly accessible files should be written to typo3temp/assets/.
-     *
      * @return string
      */
     private function getTempPath()
     {
-        if (version_compare(TYPO3_version, 8.0, '>=')) {
-            return 'typo3temp/assets/';
-        } else {
-            return 'typo3temp/';
-        }
+        return 'typo3temp/assets/';
     }
 }
